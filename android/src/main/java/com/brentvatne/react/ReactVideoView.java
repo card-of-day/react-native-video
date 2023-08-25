@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Matrix;
 import android.media.MediaPlayer;
 import android.media.TimedMetaData;
@@ -312,6 +313,16 @@ public class ReactVideoView extends ScalableVideoView implements
                     try {
                         expansionFile = APKExpansionSupport.getAPKExpansionZipFile(mThemedReactContext, mMainVer, mPatchVer);
                         fd = expansionFile.getAssetFileDescriptor(uriString.replace(".mp4","") + ".mp4");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(fd==null) {
+                    try {
+                        AssetManager assetManager = mThemedReactContext.getApplicationContext().getAssets();
+                        fd = assetManager.openFd(uriString);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (NullPointerException e) {
