@@ -155,6 +155,8 @@ public class ReactVideoView extends ScalableVideoView implements
         initializeMediaPlayerIfNeeded();
         setSurfaceTextureListener(this);
 
+        setOpaque(false); /* support opacity (without it video background is always black) */
+
         mProgressUpdateRunnable = new Runnable() {
             @Override
             public void run() {
